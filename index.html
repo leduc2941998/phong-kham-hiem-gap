@@ -349,8 +349,18 @@
 </div>
 
 <div class="toolbar">
-  <button type="button" onclick="clearForm()">Xóa trắng</button>
-  <button type="button" onclick="saveDraft()">Lưu nháp</button>
+  <button type="button" onclick="clearForm()">
+    Xóa trắng
+  </button>
+
+  <button type="button" onclick="saveDraft()">
+    Lưu nháp
+  </button>
+
+  <button type="button" onclick="saveToGoogleSheet()">
+    Lưu vào bảng tổng
+  </button>
+
   <button type="button" class="primary" onclick="printRecord()">
     In bệnh án A4
   </button>
@@ -744,6 +754,54 @@
       console.error("Không đọc được bản nháp:", error);
     }
   }
+  const GOOGLE_SCRIPT_URL =
+  "DÁN_LINK_APPS_SCRIPT_KẾT_THÚC_BẰNG_EXEC_VÀO_ĐÂY";
+
+async function saveToGoogleSheet() {
+  calculateBMI();
+
+  const data = getFormData();
+
+  if (!data.patientCode || !data.fullName || !data.visitDate) {
+    alert(
+      "Cần nhập tối thiểu mã bệnh nhân, họ tên và ngày khám."
+    );
+    return;
+  }
+
+  const confirmed = confirm(
+    "Thêm bệnh án này thành một dòng mới trong bảng tổng NF1?"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    showMessage("Đang gửi dữ liệu...");
+
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(data)
+    });
+
+    localStorage.setItem(
+      "nf1MedicalRecordDraft",
+      JSON.stringify(data)
+    );
+
+    showMessage("Đã gửi dữ liệu tới bảng tổng NF1");
+
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      "Không gửi được dữ liệu. Kiểm tra lại đường dẫn Apps Script và kết nối mạng."
+    );
+  }
+}
 </script>
 
 </body>
