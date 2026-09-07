@@ -11,21 +11,25 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --green: #096b52;
+      --dark: #17352f;
+      --background: #f2f6f4;
+      --border: #c7d5d0;
+      --muted: #63756f;
+    }
+
     body {
       margin: 0;
-      background: #f2f6f4;
-      color: #152e29;
+      background: var(--background);
+      color: var(--dark);
       font-family: Arial, sans-serif;
     }
 
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
       padding: 18px 5%;
-      background: #ffffff;
-      border-bottom: 1px solid #d8e3df;
+      background: white;
+      border-bottom: 1px solid var(--border);
     }
 
     header h1 {
@@ -34,8 +38,8 @@
     }
 
     header p {
-      margin: 4px 0 0;
-      color: #64756f;
+      margin: 5px 0 0;
+      color: var(--muted);
       font-size: 14px;
     }
 
@@ -53,28 +57,42 @@
       top: 0;
       z-index: 10;
       display: flex;
+      flex-wrap: wrap;
       justify-content: flex-end;
       gap: 10px;
       padding: 14px 5%;
-      background: rgba(242, 246, 244, 0.96);
-      border-bottom: 1px solid #d8e3df;
+      background: rgba(242, 246, 244, 0.97);
+      border-bottom: 1px solid var(--border);
     }
 
     button {
       padding: 10px 16px;
-      border: 1px solid #c7d5d0;
+      border: 1px solid var(--border);
       border-radius: 8px;
-      background: #ffffff;
-      color: #17352f;
+      background: white;
+      color: var(--dark);
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
     }
 
+    button:hover {
+      background: #eaf2ef;
+    }
+
     button.primary {
-      border-color: #096b52;
-      background: #096b52;
-      color: #ffffff;
+      border-color: var(--green);
+      background: var(--green);
+      color: white;
+    }
+
+    button.primary:hover {
+      background: #075641;
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.6;
     }
 
     main {
@@ -85,7 +103,7 @@
 
     .record {
       padding: 38px;
-      background: #ffffff;
+      background: white;
       border: 1px solid #d8e3df;
       border-radius: 14px;
       box-shadow: 0 12px 35px rgba(17, 56, 46, 0.08);
@@ -98,6 +116,7 @@
     }
 
     .record-header .hospital {
+      margin: 0 0 22px;
       text-align: left;
       font-family: Arial, sans-serif;
       font-size: 14px;
@@ -122,7 +141,7 @@
 
     legend {
       padding: 0 8px;
-      color: #0a604b;
+      color: var(--green);
       font-weight: bold;
     }
 
@@ -132,7 +151,7 @@
     }
 
     .grid-2 {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
     }
 
     .grid-3 {
@@ -157,12 +176,24 @@
       padding: 10px;
       border: 1px solid #c8d4d0;
       border-radius: 7px;
-      background: #ffffff;
-      color: #111111;
+      background: white;
+      color: #111;
       font: inherit;
     }
 
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--green);
+      outline: 2px solid rgba(9, 107, 82, 0.14);
+    }
+
+    input[readonly] {
+      background: #edf3f1;
+    }
+
     textarea {
+      line-height: 1.5;
       resize: vertical;
     }
 
@@ -173,22 +204,32 @@
     .criteria {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px 20px;
-      margin-bottom: 18px;
+      gap: 11px 20px;
+      margin-bottom: 20px;
     }
 
     .criteria label {
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      line-height: 1.4;
       font-weight: normal;
+      line-height: 1.4;
     }
 
     .criteria input {
       width: 18px;
       height: 18px;
       flex: 0 0 auto;
+      margin-top: 1px;
+    }
+
+    .criteria-result {
+      margin: 0 0 18px;
+      padding: 11px 14px;
+      border-radius: 8px;
+      background: #edf6f2;
+      color: #075641;
+      font-weight: bold;
     }
 
     .signature {
@@ -203,24 +244,27 @@
       display: block;
       margin-top: 5px;
       font-style: italic;
+      font-size: 14px;
     }
 
     #message {
       position: fixed;
       right: 20px;
       bottom: 20px;
+      z-index: 100;
       display: none;
-      padding: 12px 18px;
+      max-width: 360px;
+      padding: 13px 18px;
       border-radius: 8px;
-      background: #17352f;
-      color: #ffffff;
+      background: var(--dark);
+      color: white;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     }
 
     @media (max-width: 760px) {
-      header,
       .toolbar {
-        align-items: flex-start;
-        flex-direction: column;
+        position: static;
+        justify-content: flex-start;
       }
 
       .grid-2,
@@ -246,7 +290,8 @@
 
     @media print {
       body {
-        background: #ffffff;
+        background: white;
+        color: black;
         font: 11pt/1.35 "Times New Roman", serif;
       }
 
@@ -270,6 +315,10 @@
         box-shadow: none;
       }
 
+      .record-header {
+        margin-bottom: 16px;
+      }
+
       .record-header h2 {
         font-size: 18pt;
       }
@@ -283,13 +332,13 @@
         margin-bottom: 10px;
         padding: 8px 0 0;
         border: 0;
-        border-top: 1px solid #333333;
+        border-top: 1px solid #333;
         border-radius: 0;
       }
 
       legend {
         padding: 0 6px 0 0;
-        color: #000000;
+        color: black;
         font-size: 12pt;
       }
 
@@ -308,14 +357,16 @@
         min-height: 22px;
         padding: 1px 2px;
         border: 0;
-        border-bottom: 1px dotted #555555;
+        border-bottom: 1px dotted #555;
         border-radius: 0;
+        background: white !important;
+        color: black;
         font: 11pt/1.25 "Times New Roman", serif;
       }
 
       textarea {
         margin-top: 2px;
-        border: 1px dotted #777777;
+        border: 1px dotted #777;
         resize: none;
       }
 
@@ -325,6 +376,18 @@
 
       .criteria label {
         font: 10.5pt/1.25 "Times New Roman", serif;
+      }
+
+      .criteria input {
+        width: 13px;
+        height: 13px;
+      }
+
+      .criteria-result {
+        padding: 4px 0;
+        background: white;
+        color: black;
+        font: bold 11pt "Times New Roman", serif;
       }
 
       .signature {
@@ -338,14 +401,12 @@
 <body>
 
 <header>
-  <div>
-    <h1>Phòng khám bệnh da di truyền – hiếm gặp</h1>
-    <p>Biểu mẫu nhập liệu bệnh án NF1</p>
-  </div>
+  <h1>Phòng khám bệnh da di truyền – hiếm gặp</h1>
+  <p>Nhập liệu và in bệnh án u xơ thần kinh type 1</p>
 </header>
 
 <div class="warning">
-  BẢN THỬ NGHIỆM – Không nhập thông tin bệnh nhân thật khi chưa có hệ thống bảo mật được phê duyệt.
+  BẢN THỬ NGHIỆM – Không nhập dữ liệu bệnh nhân thật khi hệ thống chưa được phê duyệt.
 </div>
 
 <div class="toolbar">
@@ -357,11 +418,19 @@
     Lưu nháp
   </button>
 
-  <button type="button" onclick="saveToGoogleSheet()">
+  <button
+    type="button"
+    id="sheetButton"
+    onclick="saveToGoogleSheet()"
+  >
     Lưu vào bảng tổng
   </button>
 
-  <button type="button" class="primary" onclick="printRecord()">
+  <button
+    type="button"
+    class="primary"
+    onclick="printRecord()"
+  >
     In bệnh án A4
   </button>
 </div>
@@ -371,7 +440,8 @@
 
     <div class="record-header">
       <p class="hospital">
-        CƠ SỞ KHÁM BỆNH: ...........................................................
+        CƠ SỞ KHÁM BỆNH:
+        ................................................................
       </p>
 
       <h2>BỆNH ÁN NGHIÊN CỨU</h2>
@@ -383,13 +453,13 @@
 
       <div class="grid grid-4">
         <label>
-          Mã số bệnh nhân
-          <input name="patientCode">
+          Mã số bệnh nhân *
+          <input name="patientCode" required>
         </label>
 
         <label>
-          Ngày khám
-          <input name="visitDate" type="date">
+          Ngày khám *
+          <input name="visitDate" type="date" required>
         </label>
 
         <label>
@@ -409,13 +479,18 @@
 
       <div class="grid grid-2">
         <label>
-          1.1. Họ và tên
-          <input name="fullName">
+          1.1. Họ và tên *
+          <input name="fullName" required>
         </label>
 
         <label>
           1.2. Năm sinh
-          <input name="birthYear" inputmode="numeric">
+          <input
+            name="birthYear"
+            type="number"
+            min="1900"
+            max="2100"
+          >
         </label>
 
         <label>
@@ -430,7 +505,7 @@
 
         <label>
           1.5. Điện thoại
-          <input name="phone">
+          <input name="phone" type="tel">
         </label>
 
         <label>
@@ -442,9 +517,9 @@
           1.7. Giới
           <select name="sex">
             <option value=""></option>
-            <option>Nữ</option>
-            <option>Nam</option>
-            <option>Khác</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Nam">Nam</option>
+            <option value="Khác">Khác</option>
           </select>
         </label>
       </div>
@@ -456,12 +531,24 @@
       <div class="grid grid-3">
         <label>
           Chiều cao (cm)
-          <input id="height" name="height" type="number" step="0.1">
+          <input
+            id="height"
+            name="height"
+            type="number"
+            min="0"
+            step="0.1"
+          >
         </label>
 
         <label>
           Cân nặng (kg)
-          <input id="weight" name="weight" type="number" step="0.1">
+          <input
+            id="weight"
+            name="weight"
+            type="number"
+            min="0"
+            step="0.1"
+          >
         </label>
 
         <label>
@@ -491,7 +578,7 @@
         </label>
 
         <label class="full">
-          3.4. Bệnh nội, ngoại khoa
+          3.4. Bệnh nội khoa và ngoại khoa
           <textarea name="medicalHistory" rows="3"></textarea>
         </label>
 
@@ -499,9 +586,9 @@
           Gia đình có triệu chứng tương tự
           <select name="familySimilar">
             <option value=""></option>
-            <option>Có</option>
-            <option>Không</option>
-            <option>Chưa rõ</option>
+            <option value="Có">Có</option>
+            <option value="Không">Không</option>
+            <option value="Chưa rõ">Chưa rõ</option>
           </select>
         </label>
 
@@ -528,7 +615,7 @@
 
         <label>
           <input type="checkbox" name="neurofibroma">
-          Có từ 2 u xơ thần kinh hoặc 1 u xơ thần kinh dạng đám rối
+          Có từ 2 u xơ thần kinh hoặc 1 u xơ dạng đám rối
         </label>
 
         <label>
@@ -560,6 +647,10 @@
           <input type="checkbox" name="affectedParent">
           Cha hoặc mẹ đáp ứng tiêu chuẩn NF1
         </label>
+      </div>
+
+      <div id="criteriaResult" class="criteria-result">
+        Số tiêu chuẩn đã chọn: 0
       </div>
 
       <div class="grid grid-2">
@@ -655,10 +746,34 @@
 <div id="message"></div>
 
 <script>
+  /*
+   * DÁN URL APPS SCRIPT CỦA BẠN VÀO GIỮA HAI DẤU NHÁY.
+   * URL phải kết thúc bằng /exec.
+   *
+   * Ví dụ:
+   * const GOOGLE_SCRIPT_URL =
+   *   "https://script.google.com/macros/s/ABC123/exec";
+   */
+
+  const GOOGLE_SCRIPT_URL =
+    "DAN_DUONG_LINK_APPS_SCRIPT_VAO_DAY";
+
   const form = document.getElementById("nf1Form");
   const heightInput = document.getElementById("height");
   const weightInput = document.getElementById("weight");
   const bmiInput = document.getElementById("bmi");
+  const sheetButton = document.getElementById("sheetButton");
+
+  const criteriaInputs = form.querySelectorAll(
+    '.criteria input[type="checkbox"]'
+  );
+
+  heightInput.addEventListener("input", calculateBMI);
+  weightInput.addEventListener("input", calculateBMI);
+
+  criteriaInputs.forEach(function(input) {
+    input.addEventListener("change", updateCriteriaResult);
+  });
 
   function calculateBMI() {
     const height = Number(heightInput.value) / 100;
@@ -671,8 +786,16 @@
     }
   }
 
-  heightInput.addEventListener("input", calculateBMI);
-  weightInput.addEventListener("input", calculateBMI);
+  function updateCriteriaResult() {
+    const numberSelected = Array.from(criteriaInputs).filter(
+      function(input) {
+        return input.checked;
+      }
+    ).length;
+
+    document.getElementById("criteriaResult").textContent =
+      "Số tiêu chuẩn đã chọn: " + numberSelected;
+  }
 
   function getFormData() {
     const data = {};
@@ -681,9 +804,18 @@
       data[key] = value;
     });
 
-    form.querySelectorAll('input[type="checkbox"]').forEach(function(input) {
-      data[input.name] = input.checked;
-    });
+    form.querySelectorAll('input[type="checkbox"]').forEach(
+      function(input) {
+        data[input.name] = input.checked;
+      }
+    );
+
+    data.disease = "NF1";
+    data.criteriaCount = Array.from(criteriaInputs).filter(
+      function(input) {
+        return input.checked;
+      }
+    ).length;
 
     return data;
   }
@@ -692,7 +824,9 @@
     Object.keys(data).forEach(function(key) {
       const element = form.elements[key];
 
-      if (!element) return;
+      if (!element) {
+        return;
+      }
 
       if (element.type === "checkbox") {
         element.checked = Boolean(data[key]);
@@ -702,6 +836,7 @@
     });
 
     calculateBMI();
+    updateCriteriaResult();
   }
 
   function showMessage(text) {
@@ -712,10 +847,12 @@
 
     setTimeout(function() {
       message.style.display = "none";
-    }, 2200);
+    }, 2500);
   }
 
   function saveDraft() {
+    calculateBMI();
+
     const data = getFormData();
 
     localStorage.setItem(
@@ -731,21 +868,97 @@
       "Bạn có chắc chắn muốn xóa toàn bộ nội dung đang nhập?"
     );
 
-    if (!accepted) return;
+    if (!accepted) {
+      return;
+    }
 
     form.reset();
     bmiInput.value = "";
+
     localStorage.removeItem("nf1MedicalRecordDraft");
 
+    updateCriteriaResult();
     showMessage("Đã xóa trắng biểu mẫu");
   }
 
   function printRecord() {
     calculateBMI();
+    updateCriteriaResult();
     window.print();
   }
 
-  const savedData = localStorage.getItem("nf1MedicalRecordDraft");
+  async function saveToGoogleSheet() {
+    calculateBMI();
+    updateCriteriaResult();
+
+    if (!form.reportValidity()) {
+      return;
+    }
+
+    if (
+      !GOOGLE_SCRIPT_URL.startsWith("https://script.google.com/") ||
+      !GOOGLE_SCRIPT_URL.endsWith("/exec")
+    ) {
+      alert(
+        "Bạn chưa dán đúng đường dẫn Google Apps Script. " +
+        "Đường dẫn phải bắt đầu bằng https://script.google.com/ " +
+        "và kết thúc bằng /exec."
+      );
+
+      return;
+    }
+
+    const data = getFormData();
+
+    const accepted = confirm(
+      "Thêm bệnh án của mã " +
+      data.patientCode +
+      " thành một dòng mới trong bảng tổng NF1?"
+    );
+
+    if (!accepted) {
+      return;
+    }
+
+    sheetButton.disabled = true;
+    sheetButton.textContent = "Đang lưu...";
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
+
+      localStorage.setItem(
+        "nf1MedicalRecordDraft",
+        JSON.stringify(data)
+      );
+
+      showMessage(
+        "Đã gửi dữ liệu. Hãy kiểm tra tab NF1 trong Google Sheet."
+      );
+
+    } catch (error) {
+      console.error(error);
+
+      alert(
+        "Không gửi được dữ liệu. " +
+        "Hãy kiểm tra đường dẫn Apps Script và kết nối mạng."
+      );
+
+    } finally {
+      sheetButton.disabled = false;
+      sheetButton.textContent = "Lưu vào bảng tổng";
+    }
+  }
+
+  const savedData = localStorage.getItem(
+    "nf1MedicalRecordDraft"
+  );
 
   if (savedData) {
     try {
@@ -754,54 +967,8 @@
       console.error("Không đọc được bản nháp:", error);
     }
   }
-  const GOOGLE_SCRIPT_URL =
-  "DÁN_LINK_APPS_SCRIPT_KẾT_THÚC_BẰNG_EXEC_VÀO_ĐÂY";
 
-async function saveToGoogleSheet() {
-  calculateBMI();
-
-  const data = getFormData();
-
-  if (!data.patientCode || !data.fullName || !data.visitDate) {
-    alert(
-      "Cần nhập tối thiểu mã bệnh nhân, họ tên và ngày khám."
-    );
-    return;
-  }
-
-  const confirmed = confirm(
-    "Thêm bệnh án này thành một dòng mới trong bảng tổng NF1?"
-  );
-
-  if (!confirmed) return;
-
-  try {
-    showMessage("Đang gửi dữ liệu...");
-
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify(data)
-    });
-
-    localStorage.setItem(
-      "nf1MedicalRecordDraft",
-      JSON.stringify(data)
-    );
-
-    showMessage("Đã gửi dữ liệu tới bảng tổng NF1");
-
-  } catch (error) {
-    console.error(error);
-
-    alert(
-      "Không gửi được dữ liệu. Kiểm tra lại đường dẫn Apps Script và kết nối mạng."
-    );
-  }
-}
+  updateCriteriaResult();
 </script>
 
 </body>
